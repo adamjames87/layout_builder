@@ -49,7 +49,7 @@ const entities = combineReducers({
 });
 
 
-export const handleAction =  combineReducers({
+export const rootReducer =  combineReducers({
     entities
 });
 //     console.log(action)

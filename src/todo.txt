@@ -1,0 +1,5 @@
+* Render with the new state and not the old state
+* Split components out
+* Render using redux
+* Get add row to work
+* Get add column to work
