@@ -1,54 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import {fromJS, getIn, setIn, Map} from "immutable";
+import {generateUUID} from "./utils";
 
-function generateUUID() { // Public Domain/MIT
-  var d = new Date().getTime();
-  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
-    d += performance.now(); //use high-precision timer if available
-  }
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-  });
-}
-
-// Actions
-const ADD_ROW = 'ADD_ROW';
-const ADD_COMPOSITE_ROW = 'ADD_COMPOSITE_ROW';
-const ADD_COLUMN = 'ADD_COLUMN';
-
-
-// Action Creators
-
-// Add a row after the row listed
-function addRow(afterId) {
-  return {
-    type: ADD_ROW,
-    id: afterId
-  }
-}
-
-// Add a column
-function addColumn(rowId, afterId) {
-  const id = generateUUID();
-  return {
-    type: ADD_COLUMN,
-    rowId: rowId,
-    afterId: afterId,
-    columnId: id
-  }
-}
-
-// State:
-//
-// rows:
-//
-// columns:
-//
-// content:
-//
 
 var originalData = {
   id: generateUUID(),
@@ -206,12 +160,6 @@ console.log(result);
 
 // Row expects a row passed in
 class Row extends React.Component {
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = props.row;
-  }
-
 
   renderColumns() {
     const row = this.props.row;
