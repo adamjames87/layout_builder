@@ -1,10 +1,19 @@
-import {ADD_ROW, ADD_COMPOSITE_ROW, ADD_COLUMN} from "./actionTypes";
+import {ADD_ROW, ADD_CONTAINER_ROW, ADD_COLUMN} from "./actionTypes";
 import {generateUUID} from "./utils";
 
 export function addRow(afterId) {
     return {
         type: ADD_ROW,
         id: afterId
+    }
+}
+
+export function addContainerRow(afterId) {
+    const rowId = generateUUID();
+    return {
+        type: ADD_CONTAINER_ROW,
+        id: rowId,
+        afterId: afterId
     }
 }
 
