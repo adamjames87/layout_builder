@@ -112,7 +112,8 @@ var originalState = {
 
 
 // Run a simple test to check I'm sane
-const result =  handleAction( originalState, addColumn(null,null,));
+const result =  handleAction( originalState,
+    addColumn("row1",null,));
 console.log(result);
 
 
