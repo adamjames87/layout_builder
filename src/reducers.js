@@ -3,31 +3,37 @@ import {
     ADD_COMPOSITE_ROW,
     ADD_ROW
 } from './actionTypes'
-
-import {
-    addColumn,
-    addRow
-} from './actions'
+import {produce} from 'immer'
 
 
+function addColumn(columnState, id){
+   return produce(columnState, draft => {
+        console.log(columnState);
+        console.log(id);
+        draft.byId[id] = {id: id, colSpan: 12, content: "I am new"};
+        draft.allIds.push(id);
+    });
+}
 
-function columns(state, action) {
+
+
+export function columns(state, action) {
+    console.log(state)
     switch (action.type) {
         case ADD_COLUMN:
-            const newId = generateUUID();
-            const added = state.setIn(['byId', newId], Map({id: newId, colSpan: 12, content: "I am new"}));
-            const intoList = added.set("allIds", added.get("allIds").push(newId));
-            return intoList;
+            return addColumn(action.columnId);
         default:
             return state;
     }
 }
 
 
-function handleAction(state = originalState, action) {
+export function handleAction(state, action) {
     console.log(action)
     switch (action.type) {
         case ADD_COLUMN:
-            return  setIn(state, ['entities', 'columns'], columns(getIn(state, ['entities', 'columns']), action));
+            return produce(state, draft => {
+                draft.entities.columns = columns(state.entities.columns, action);
+            });
     }
 }

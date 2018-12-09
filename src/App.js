@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 import {fromJS, getIn, setIn, Map} from "immutable";
 import {generateUUID} from "./utils";
+import {handleAction} from "./reducers";
+import {addColumn} from "./actions"
 
 
 var originalData = {
@@ -58,7 +60,7 @@ var originalData = {
 };
 
 //
-var originalState = fromJS({
+var originalState = {
   entities: {
     rows: {
       byId: {
@@ -99,37 +101,18 @@ var originalState = fromJS({
       allIds: ["column1", "column2", "column3", "column4"]
     }
   }
-});
+};
 
 
 
-// slice reducer
-function columns(state, action) {
-  switch (action.type) {
-    case ADD_COLUMN:
-      const newId = generateUUID();
-      const added = state.setIn(['byId', newId], Map({id: newId, colSpan: 12, content: "I am new"}));
-      const intoList = added.set("allIds", added.get("allIds").push(newId));
-      return intoList;
-    default:
-      return state;
-  }
-}
 
 
-function handleAction(state = originalState, action) {
-  console.log(action)
-  switch (action.type) {
-    case ADD_COLUMN:
-      return  setIn(state, ['entities', 'columns'], columns(getIn(state, ['entities', 'columns']), action));
-  }
-}
 
 
 
 
 // Run a simple test to check I'm sane
-const result =  handleAction( originalState, addColumn(null,null));
+const result =  handleAction( originalState, addColumn(null,null,));
 console.log(result);
 
 
