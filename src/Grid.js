@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import LinkedNewRow from "./LinkedNewRow"
-import {PresentationColumn} from "./RowsColumns"
+import {Row} from "./RowsColumns"
 
 
 
@@ -10,12 +10,18 @@ class PresentationGrid extends Component {
 
 
     renderRoot() {
-        return PresentationColumn.renderRows(this.props.rootRows);
+        return this.props.container.rows.map(
+            row => {
+                return (
+                    <Row key={row} rowId={row} />
+                )
+            }
+        )
     }
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <LinkedNewRow/>
                 {this.renderRoot()}
                 <LinkedNewRow/>
@@ -26,7 +32,7 @@ class PresentationGrid extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        rootRows: state.rootRows
+        container: state.entities.container
     }
 };
 

@@ -10,7 +10,6 @@ import {createStore} from "redux";
 
 
 var originalState = {
-    rootRows: ["row1", "row2"],
     entities: {
         rows: {
             byId: {
@@ -34,7 +33,7 @@ var originalState = {
                 },
                 "column2" : {
                     id: "column2",
-                    colspan: 6,
+                    colSpan: 6,
                     content: "Second Column"
                 },
                 "column3" : {
@@ -49,7 +48,12 @@ var originalState = {
                 }
             },
             allIds: ["column1", "column2", "column3", "column4"]
-        }
+        },
+        container: {
+            id: "container1",
+            rows: ["row1", "row2"]
+        },
+
     }
 };
 

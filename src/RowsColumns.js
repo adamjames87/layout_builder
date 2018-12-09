@@ -2,16 +2,19 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 
 
+// props:
+// id
+// rows
 export class PresentationColumn extends Component {
 
-    static renderRows(column) {
-        if (column.rows == null || column.rows.length === 0) {
+     renderRows(column) {
+        if (this.props.rows == null || this.props.length === 0) {
             return (
-                <span>{column.content}</span>
+                <span>{this.props.content}</span>
             );
 
         } else {
-            return column.rows.map(
+            return this.props.rows.map(
                 row => {
                     return (
                         <Row key={row.id} rowId={row.id}/>
@@ -25,11 +28,10 @@ export class PresentationColumn extends Component {
     }
 
     render() {
-        const column = this.props.column;
-        const classNames = PresentationColumn.colClasses() + " col-md-" + column.colSpan;
+        const classNames = PresentationColumn.colClasses() + " col-md-" + this.props.colSpan;
         return (
             <div className={classNames}>
-                {PresentationColumn.renderRows(column)}
+                {this.renderRows()}
             </div>
         )
     }
@@ -38,15 +40,14 @@ export class PresentationColumn extends Component {
 export class PresentationRow extends Component {
 
     renderColumns() {
-        const row = this.props.row;
-        return row.columns.map(
+        console.log(this.props)
+        return this.props.columns.map(
             col => {
                 return (
-                    <Column key={col.id} column={col}/>
+                    <Column key={col.id} columnId={col}/>
                 );
             });
     }
-
     render() {
         return (
             <div className="row">
@@ -82,16 +83,23 @@ export const Row = connect(
 )(PresentationRow);
 
 
-// ownProps gets given
-// a rowId
-const mapStateToPropsCols = (state, ownProps) => {
+// A Column is given a column id
+// A Presentation Column requires
+// id
+// rows
+// col-span
+// content
+const mapStateToPropsColumn = (state, ownProps) => {
+    let byIdElement = state.entities.columns.byId[ownProps.columnId];
     return {
-        id: state.entities.rows.byId[ownProps.rowId].id,
-        columns: state.entities.rows.byId[ownProps.rowId].columns,
+        id: ownProps.columnId,
+        rows: byIdElement.columns,
+        colSpan: byIdElement.colSpan,
+        content: byIdElement.content,
     }
 };
 
-const mapDispatchToPropsCols = (dispatch, ownProps) => {
+const mapDispatchToPropsColumn = (dispatch, ownProps) => {
     return {
         onclick: () => {
             console.log("blah")
@@ -100,7 +108,7 @@ const mapDispatchToPropsCols = (dispatch, ownProps) => {
 };
 
 const Column = connect(
-    mapStateToPropsCols,
-    mapDispatchToPropsCols,
+    mapStateToPropsColumn,
+    mapDispatchToPropsColumn,
 )(PresentationColumn);
 

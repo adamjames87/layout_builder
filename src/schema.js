@@ -1,5 +1,9 @@
 {
     entities: {
+        container: {
+            id: "container1",
+                rows: []
+        }
         rows: {
             byId: {
                 "row1" : {
