@@ -1,5 +1,6 @@
 import {connect} from 'react-redux'
 import {NewRowButton} from "./NewRowButton"
+import {addRow} from './actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -9,16 +10,14 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        onclick: () => {
-            console.log("blah")
-        }
+        addNewRow: id => dispatch(addRow(null, null)),
+        onClick: () => console.log("blah")
     }
 };
 
-const LinkedNewRow = connect(
+export const LinkedNewRow = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(NewRowButton);
 
 
-export default LinkedNewRow

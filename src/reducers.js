@@ -1,56 +1,107 @@
 import {
-    ADD_COLUMN,
-    ADD_COMPOSITE_ROW,
-    ADD_ROW
+  ADD_COLUMN, ADD_COLUMNS,
+  ADD_ROW
 } from './actionTypes'
 import {produce} from 'immer'
 import {combineReducers} from "redux";
 
 
-function addColumn(columnState, id){
-   return produce(columnState, draft => {
-        console.log(columnState);
-        console.log(id);
-        draft.byId[id] = {id: id, colSpan: 12, content: "I am new"};
-        draft.allIds.push(id);
-    });
+function addColumn(columnState, id) {
+  return produce(columnState, draft => {
+    console.log(columnState);
+    console.log(id);
+    draft.byId[id] = {id: id, colSpan: 12, content: "I am new"};
+    draft.allIds.push(id);
+  });
 }
 
-
+// reducer for columns
 export function columns(state = {}, action) {
+  return produce(state, draftState => {
     switch (action.type) {
-        case ADD_COLUMN:
-            return addColumn(state, action.columnId);
-        default:
-            return state;
+      case ADD_COLUMN:
+      {
+        const id = action.columnId;
+        draftState.byId[id] = {id: id, colSpan: 12, content: "I am new"};
+        draftState.allIds.push(id);
+        break;
+      }
+      case ADD_COLUMNS:
+      {
+        action.columnIds.map((id, index) => {
+          draftState.byId[id] = {id: id, colSpan: action.colSpans[index], content: "I am new"};
+          draftState.allIds.push(id);
+        });
+        break;
+      }
+      default:
+        return state;
     }
+  });
 }
+
+
+
 
 // reducer for rows
 const rows = (state = {}, action) =>
-    produce(state, draft => {
-        switch (action.type) {
-            case ADD_COLUMN:
-                // find the ID of the row and add it in
-                const rowId = action.rowId;
-                draft.byId[rowId].columns.push(action.columnId)
-       }
+  produce(state, draft => {
+    console.log(action.type);
+    switch (action.type) {
+      case ADD_COLUMN: {
+        // find the ID of the row and add it in
+        const rowId = action.rowId;
+        draft.byId[rowId].columns.push(action.columnId);
+        break;
+      }
 
-    });
+      case ADD_COLUMNS: {
+        console.log(action.columnIds);
+        const rowId = action.rowId;
+        action.columnIds.map(columnId => draft.byId[rowId].columns.push(columnId));
+        break;
+      }
 
+      case ADD_ROW: {
+        const rowId = action.rowId;
+        draft.byId[rowId] = {id: rowId, columns: []};
+        draft.allIds.push(rowId);
+        break;
+      }
+      default:
+    }
 
+  });
+
+const container = (state = {}, action) =>
+  produce(state, draftState => {
+    switch (action.type) {
+      case ADD_ROW:
+      {
+        // If the columnId is null then this is to go into
+        // a container
+        if (action.columnId == null) {
+          draftState.rows.push(action.rowId);
+        }
+        break;
+      }
+      default:
+
+    }
+  });
 
 
 // How does the state change interact with the
 // entities object
 const entities = combineReducers({
-    columns,
-    rows
+  columns,
+  rows,
+  container
 });
 
 
-export const rootReducer =  combineReducers({
-    entities
+export const rootReducer = combineReducers({
+  entities
 });
 //     console.log(action)
 //     switch (action.type) {

@@ -1,10 +1,13 @@
-import {ADD_ROW, ADD_CONTAINER_ROW, ADD_COLUMN} from "./actionTypes";
+import {ADD_ROW, ADD_CONTAINER_ROW, ADD_COLUMN, ADD_COLUMNS} from "./actionTypes";
 import {generateUUID} from "./utils";
 
-export function addRow(afterId) {
+export function addRow(afterId, columnId ) {
+    const rowId = generateUUID();
     return {
         type: ADD_ROW,
-        id: afterId
+        rowId: rowId,
+        afterId: afterId,
+        columnId:  columnId
     }
 }
 
@@ -25,6 +28,17 @@ export function addColumn(rowId, afterId) {
         rowId: rowId,
         afterId: afterId,
         columnId: id
+    }
+}
+
+export function addColumnConfiguration(rowId, colSpans) {
+    const id = generateUUID();
+    const columnIds = colSpans.map(() => generateUUID());
+    return {
+        type: ADD_COLUMNS,
+        rowId: rowId,
+        columnIds: columnIds,
+        colSpans: colSpans
     }
 }
 

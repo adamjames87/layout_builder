@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import LinkedNewRow from "./LinkedNewRow"
+import {LinkedNewRow} from "./LinkedNewRow"
 import {Row} from "./RowsColumns"
 
 
