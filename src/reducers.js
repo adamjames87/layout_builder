@@ -1,6 +1,6 @@
 import {
   ADD_COLUMN, ADD_COLUMNS,
-  ADD_ROW
+  ADD_ROW, HIDE_MODAL, SHOW_MODAL
 } from './actionTypes'
 import {produce} from 'immer'
 import {combineReducers} from "redux";
@@ -100,7 +100,30 @@ const entities = combineReducers({
 });
 
 
+// modal reducer
+const modalInitialState = {
+  modalType: null,
+  modalProps: {}
+};
+
+const modal = (state = modalInitialState, action) => {
+    switch (action.type) {
+      case SHOW_MODAL:
+        return {
+          modalProps: action.modalProps,
+          modalType: action.modalType,
+          type: action.type
+        };
+      case HIDE_MODAL:
+        return modalInitialState;
+      default:
+        return state;
+    }
+};
+
+
 export const rootReducer = combineReducers({
+  modal,
   entities
 });
 //     console.log(action)

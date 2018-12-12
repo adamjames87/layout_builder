@@ -4,7 +4,7 @@ import {addRow} from './actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        test: "blah blah"
+        columnId: ownProps.columnId
     }
 };
 

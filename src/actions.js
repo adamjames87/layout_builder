@@ -1,4 +1,4 @@
-import {ADD_ROW, ADD_CONTAINER_ROW, ADD_COLUMN, ADD_COLUMNS} from "./actionTypes";
+import {ADD_ROW, ADD_CONTAINER_ROW, ADD_COLUMN, ADD_COLUMNS, HIDE_MODAL, SHOW_MODAL} from "./actionTypes";
 import {generateUUID} from "./utils";
 
 export function addRow(afterId, columnId ) {
@@ -41,4 +41,19 @@ export function addColumnConfiguration(rowId, colSpans) {
         colSpans: colSpans
     }
 }
+
+export const showModal = ({modalProps, modalType}) => dispatch => {
+    dispatch({
+        type: SHOW_MODAL,
+        modalProps,
+        modalType
+    });
+}
+
+export const hideModal = () => {
+     return {
+        type: HIDE_MODAL
+    };
+}
+
 

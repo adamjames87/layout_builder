@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {LinkedNewRow} from './LinkedNewRow'
 import {addColumnConfiguration} from "./actions";
+import {ModalLauncher} from "./modal/ModalLauncher";
+import {showModal} from "./actions";
 
 
 // props:
@@ -82,9 +84,19 @@ export class DumbNewColumnBtn extends Component {
   render() {
     return (
       <div className="border-2 border-solid border-black p-2 text-center"
-           onClick={this.props.onClick}
       >
-        Add some columns
+        <button className="btn btn-primary m-2">
+          <ModalLauncher title="Add Columns"
+                         modalAction={showModal(
+                             {modalType: 'ADD_COLUMNS',
+                               modalProps: {rowId: this.props.rowId,}})} />
+        </button>
+        <button className="btn btn-primary m-2">
+          <ModalLauncher title="Add Content"
+                         modalAction={showModal(
+                             {modalType: 'ADD_COLUMNS',
+                               modalProps: {rowId: this.props.rowId,}})} />
+        </button>
       </div>
     );
   }

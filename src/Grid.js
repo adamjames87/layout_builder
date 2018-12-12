@@ -22,9 +22,8 @@ class PresentationGrid extends Component {
     render() {
         return (
             <div className="container">
-                <LinkedNewRow/>
                 {this.renderRoot()}
-                <LinkedNewRow/>
+                <LinkedNewRow columnId={null}/>
             </div>
         );
     }

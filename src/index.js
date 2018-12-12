@@ -58,7 +58,7 @@ var originalState = {
 };
 
 const store = createStore(rootReducer, originalState);
-store.subscribe(() => console.log(store.getState()))
+store.subscribe(() => console.log(store.getState()));
 
 ReactDOM.render(
     <Provider store={store}>
