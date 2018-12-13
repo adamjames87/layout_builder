@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {LinkedNewRow} from "./LinkedNewRow"
 import {Row} from "./RowsColumns"
-
+import {NewRowButton} from "./components/NewRowButton";
 
 
 // Takes in a rootRows array
@@ -23,7 +22,7 @@ class PresentationGrid extends Component {
         return (
             <div className="container">
                 {this.renderRoot()}
-                <LinkedNewRow columnId={null}/>
+                <NewRowButton columnId={null}/>
             </div>
         );
     }

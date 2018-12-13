@@ -1,5 +1,3 @@
-* Render with the new state and not the old state
-* Split components out
-* Render using redux
-* Get add row to work
-* Get add column to work
+Adding a new row:
+- Adding a new row means that if we have content we have to encapsulate it
+- then we add a new row

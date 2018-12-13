@@ -1,9 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
 import Modal from "react-modal";
-import {addRow, hideModal} from "../actions";
+import {hideModal} from "../actions";
 
-const DumbAddRowModal = ({isOpen, columnId, dispatch}) => {
+
+
+const DumbAddRowModal = ({isOpen, columnId, addAction, dispatch}) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -27,7 +29,7 @@ const DumbAddRowModal = ({isOpen, columnId, dispatch}) => {
                     <p>Would you like to add a row to column {columnId}?</p>
                     <button className="btn btn-secondary"
                             onClick={() => {
-                                dispatch(addRow(null, columnId, [12]));
+                                addAction(dispatch, columnId);
                                 dispatch(hideModal());
                             }}
                     >Yes</button>

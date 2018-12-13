@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import Modal from "react-modal";
-import {addColumn, addColumnConfiguration, hideModal} from "../actions";
+import {addColumnConfiguration, hideModal} from "../actions";
 
 const DumbAddColumnsModal = ({isOpen, rowId, dispatch}) => {
     return (

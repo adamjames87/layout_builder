@@ -1,16 +1,26 @@
 import {
   ADD_COLUMN, ADD_COLUMNS,
-  ADD_ROW, HIDE_MODAL, SHOW_MODAL
+  ADD_ROW, HIDE_MODAL, MOVE_CONTENT, SHOW_MODAL
 } from './actionTypes'
 import {produce} from 'immer'
 import {combineReducers} from "redux";
+
+
+function makeColumn(id, colSpan, rows = [], contentId = null) {
+  return {
+    id: id,
+    colSpan: colSpan,
+    rows: rows,
+    contentId: contentId
+  }
+}
 
 
 function addColumn(columnState, id) {
   return produce(columnState, draft => {
     console.log(columnState);
     console.log(id);
-    draft.byId[id] = {id: id, colSpan: 12, content: "I am new"};
+    draft.byId[id] = makeColumn(id, 12);
     draft.allIds.push(id);
   });
 }
@@ -22,16 +32,31 @@ export function columns(state = {}, action) {
       case ADD_COLUMN:
       {
         const id = action.columnId;
-        draftState.byId[id] = {id: id, colSpan: 12, content: "I am new"};
+        draftState.byId[id] = makeColumn(id, 12);
         draftState.allIds.push(id);
         break;
       }
       case ADD_COLUMNS:
       {
         action.columnIds.map((id, index) => {
-          draftState.byId[id] = {id: id, colSpan: action.colSpans[index], content: "I am new"};
+          draftState.byId[id] = makeColumn(id, action.colSpans[index]);
           draftState.allIds.push(id);
         });
+        break;
+      }
+      case ADD_ROW:
+      {
+        if ((action.rowId != null) && (action.columnId != null)) {
+          draftState.byId[action.columnId].rows.push(action.rowId);
+        }
+        break;
+      }
+      case MOVE_CONTENT:
+      {
+        const fromId = action.fromColumnId;
+        const toId = action.toColumnId;
+        draftState.byID[toId].content = this.state.byId[fromId].content;
+        draftState.byID[fromId] = null;
         break;
       }
       default:
@@ -42,11 +67,9 @@ export function columns(state = {}, action) {
 
 
 
-
 // reducer for rows
 const rows = (state = {}, action) =>
   produce(state, draft => {
-    console.log(action.type);
     switch (action.type) {
       case ADD_COLUMN: {
         // find the ID of the row and add it in
@@ -73,6 +96,11 @@ const rows = (state = {}, action) =>
 
   });
 
+
+const content = (state = {}, action) => {
+  return state;
+};
+
 const container = (state = {}, action) =>
   produce(state, draftState => {
     switch (action.type) {
@@ -96,7 +124,8 @@ const container = (state = {}, action) =>
 const entities = combineReducers({
   columns,
   rows,
-  container
+  container,
+  content
 });
 
 
