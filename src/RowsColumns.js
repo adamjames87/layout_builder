@@ -21,9 +21,9 @@ export class PresentationColumn extends Component {
   renderRows(column) {
 
     if (this.props.rows == null || this.props.rows.length === 0) {
-      if (this.props.contentId != null) {
+      if (this.props.blockId != null) {
         return (
-            <ContentDisplayBlock contentId={this.props.contentId}/>
+            <ContentDisplayBlock blockId={this.props.blockId}/>
         );
       } else {
             return (
@@ -133,7 +133,7 @@ const mapStateToPropsColumn = (state, ownProps) => {
     id: ownProps.columnId,
     rows: byIdElement.rows,
     colSpan: byIdElement.colSpan,
-    contentId: byIdElement.contentId,
+    blockId: byIdElement.blockId,
   }
 };
 
@@ -156,7 +156,7 @@ export class DumbNewColumnBtn extends Component {
         <button className="btn btn-primary m-2">
           <ModalLauncher title="Add Content"
                          modalAction={showModal(
-                             {modalType: 'ADD_COLUMNS',
+                             {modalType: 'ADD_CONTENT',
                                modalProps: {rowId: this.props.rowId,}})} />
         </button>
       </div>

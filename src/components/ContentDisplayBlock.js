@@ -1,14 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux'
 
-const DumbContentDisplayBlock = ({content}) => {
+const DumbContentDisplayBlock = ({block}) => {
   return (
-    <span>
-      {content.data}
-    </span>
-  );
+    <div dangerouslySetInnerHTML={{__html: block.preview}} />
+  )
 };
 
 export const ContentDisplayBlock = connect(
-  (state, ownProps) => ({content: state.entities.content[ownProps.contentId]} )
+  (state, ownProps) => ({block: state.entities.content.blocks[ownProps.blockId]} )
 )(DumbContentDisplayBlock);

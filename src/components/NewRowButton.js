@@ -47,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
   // Get the column.
   // if the column in question
   const column = state.entities.columns.byId[columnId];
-  if (column.contentId != null) {
+  if (column.blockId != null) {
     return {
       columnId: ownProps.columnId,
       addAction: encapsulateAndAdd

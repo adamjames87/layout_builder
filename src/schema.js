@@ -32,25 +32,25 @@ export const originalState = {
                 "column2" : {
                     id: "column2",
                     colSpan: 6,
-                    contentId: "content2",
+                    blockId: "block1",
                     rows: []
                 },
                 "column3" : {
                     id: "column3",
                     colSpan: 4,
-                    contentId: "content3",
+                    blockId: "block1",
                     rows: []
                 },
                 "column4" : {
                     id: "column4",
                     colSpan: 8,
-                    contentId: "content4",
+                    blockId: "block1",
                     rows: []
                 },
                 "column5" : {
                     id: "column5",
                     colSpan: 12,
-                    contentId: "content1",
+                    blockId: "block1",
                     rows: []
                 }
             },
@@ -61,23 +61,38 @@ export const originalState = {
             rows: ["row1", "row2"]
         },
         content: {
-            "content1" : {
-              id: "content1",
-              data: "I am content 1"
+            templates: {
+                "template1" : {
+                    id: "template1",
+                    type: "BUTTON_BLOCK",
+                    fields: []
+                }
             },
-            "content2" : {
-                id: "content2",
-                data: "I am content 2"
+            template_fields : {
+                "templateField1" : {
+                    id: "templateField1",
+                    type: "TEXT",
+                    name: "button_text",
+                    desc: "The button text"
+                }
             },
-            "content3" : {
-                id: "content3",
-                data: "Look at me update"
+            blocks : {
+                "block1" : {
+                    id: "block1",
+                    templateId: "template1",
+                    preview: "<button class='btn btn-primary text-center'>A button test</button>",
+                    blockFields: ["blockField1"]
+                },
+
             },
-            "content4" : {
-                id: "content4",
-                data: "I am content 4"
-            }
-        }
+            block_fields: {
+                "blockField1": {
+                    id : "blockField1",
+                    templateField: "templateField1",
+                    value: "La La La"
+                }
+            },
+        },
 
     }
 };
