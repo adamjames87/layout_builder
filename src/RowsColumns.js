@@ -32,8 +32,6 @@ export class PresentationColumn extends Component {
       }
 
     } else {
-      console.log("Rendering rows withing column");
-      console.log(this.props.rows);
       return this.props.rows.map(
         row => {
           return (
@@ -48,8 +46,6 @@ export class PresentationColumn extends Component {
   }
 
   render() {
-              console.log("Rendering column" + this.props.id);
-              console.log(this.props);
     const classNames = PresentationColumn.colClasses() + " col-md-" + this.props.colSpan;
     return (
       <div className={classNames}>
@@ -73,9 +69,6 @@ export class PresentationRow extends Component {
   }
 
   render() {
-        console.log("Row props :");
-    console.log(this.props);
-
     // We always need columns
     if (this.props.columns.length > 0) {
       return (
