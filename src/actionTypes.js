@@ -5,5 +5,10 @@ export const ADD_COLUMNS = 'ADD_COLUMNS';
 export const ADD_CONTAINER_ROW = 'ADD_CONTAINER_ROW';
 export const ENCAPSULATE_CONTENT = 'ENCAPSULATE_CONTENT';
 export const MOVE_CONTENT = 'MOVE_CONTENT';
+
 export const SHOW_MODAL = "SHOW_MODAL";
 export const HIDE_MODAL = "HIDE_MODAL";
+
+export const CREATE_BLOCK = "CREATE_BLOCK";
+export const CREATE_BLOCK_FIELD = "CREATE_BLOCK_FIELD";
+export const ATTACH_BLOCK = "ATTACH_BLOCK";

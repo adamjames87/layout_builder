@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import Modal from "react-modal";
 import { hideModal} from "../actions";
-import {Formik} from "formik";
+import {produce} from 'immer'
 
 // return this.props.rows.map(
 //     row => {
@@ -10,6 +10,8 @@ import {Formik} from "formik";
 //             <Row key={row} rowId={row}/>
 //         );
 //     });
+
+
 
 const renderFields = (values, fields) => {
     return fields.map(
@@ -20,6 +22,7 @@ const renderFields = (values, fields) => {
                     placeholder={field}
                     type="text"
                     value={values[field]}
+                    key={field}
                     // onChange={handleChange}
                     // onBlur={handleBlur}
                     // className={
@@ -31,85 +34,76 @@ const renderFields = (values, fields) => {
         }
     )
 
-}
-
-
-const AddFieldForm = () => {
-    return (
-    <Formik
-        // initialValues={{ email: '' }}
-        onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-            }, 500);
-        }}
-    >
-        {props => {
-            const {
-                values,
-                touched,
-                errors,
-                dirty,
-                isSubmitting,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                handleReset,
-            } = props;
-            return (
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="email" style={{ display: 'block' }}>
-                        Email
-                    </label>
-                    <input
-                        id="email"
-                        placeholder="Enter your email"
-                        type="text"
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className={
-                            errors.email && touched.email ? 'text-input error' : 'text-input'
-                        }
-                    />
-
-                    {renderFields(values, ["first", "second"])}
-                    <input
-                        id="something"
-                        placeholder="Enter your email"
-                        type="text"
-                        value={values["something"]}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className={
-                            errors.email && touched.email ? 'text-input error' : 'text-input'
-                        }
-                    />
-                    {errors.email &&
-                    touched.email && <div className="input-feedback">{errors.email}</div>}
-
-                    <button
-                        type="button"
-                        className="outline"
-                        onClick={handleReset}
-                        disabled={!dirty || isSubmitting}
-                    >
-                        Reset
-                    </button>
-                    <button type="submit" disabled={isSubmitting}>
-                        Submit
-                    </button>
-                </form>
-            );
-        }}
-    </Formik>
-    )
 };
 
 
+class AddFieldForm extends React.Component {
 
-const DumbAddFieldDataModal = ({isOpen, rowId, dispatch}) => {
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      fields: props.fields
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState(produce(this.state, draftState => {
+        draftState.fields.byId[name].value = value;
+      }));
+
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log("submitting form");
+    console.log(this.state);
+  }
+
+  renderFields() {
+    return this.state.fields.ordered.map(
+      field => {
+        return (
+          <div className="form-group" key={field}>
+            <label>{this.state.fields.byId[field].name}</label>
+            <input
+              placeholder={this.state.fields.byId[field].value}
+              type="text"
+              onChange={this.handleInputChange}
+              name={this.state.fields.byId[field].id}
+              key={field}
+              className="form-control"
+            />
+            <small className="form-text text-muted">{this.state.fields.byId[field].desc}</small>
+          </div>
+
+        )
+      }
+    );
+  }
+
+
+  render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            {this.renderFields()}
+            <input type="submit" className="btn btn-primary" value="Add Content"></input>
+          </form>
+        )
+  }
+
+}
+
+
+
+
+const DumbAddFieldDataModal = ({isOpen, fields, dispatch}) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -122,7 +116,7 @@ const DumbAddFieldDataModal = ({isOpen, rowId, dispatch}) => {
                 <div className="modal-header">
                     <h5
                         className="modal-title"
-                    >Add Columns</h5>
+                    >Add Content</h5>
                     <button type="button" className="close"
                             aria-label="Close"
                             onClick={() => dispatch(hideModal())}>
@@ -130,7 +124,7 @@ const DumbAddFieldDataModal = ({isOpen, rowId, dispatch}) => {
                     </button>
                 </div>
                 <div className="modal-body">
-                    <AddFieldForm/>
+                    <AddFieldForm fields={fields}/>
                 </div>
                 <div className="modal-footer">
                     <button type="button"
@@ -143,10 +137,30 @@ const DumbAddFieldDataModal = ({isOpen, rowId, dispatch}) => {
     )
 };
 
-export const AddFieldDataModal = connect(
-    (state, ownProps) => ({
-        ...state.modalProps,
-        isOpen: (state.modal.modalType != null),
 
-    })
+const buildFields = (state, templateId) => {
+  var fields = { byId: {}, ordered: []};
+
+  state.templates[templateId].fields.map(
+    fieldId => {
+      fields.byId[fieldId] = state.template_fields[fieldId];
+      fields.ordered.push(fieldId);
+    }
+  );
+  return fields;
+};
+
+function mapStateToProps(state, ownProps) {
+
+  console.log(state.modalProps);
+  return {
+    fields: buildFields(state.entities.content, state.modal.modalProps.templateId),
+    ...state.modalProps,
+    isOpen: (state.modal.modalType != null),
+
+  };
+}
+
+export const AddFieldDataModal = connect(
+  mapStateToProps
 )(DumbAddFieldDataModal);

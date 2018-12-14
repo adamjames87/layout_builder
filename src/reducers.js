@@ -1,6 +1,6 @@
 import {
   ADD_COLUMN, ADD_COLUMNS,
-  ADD_ROW, HIDE_MODAL, MOVE_CONTENT, SHOW_MODAL
+  ADD_ROW, ATTACH_BLOCK, CREATE_BLOCK, CREATE_BLOCK_FIELD, HIDE_MODAL, MOVE_CONTENT, SHOW_MODAL
 } from './actionTypes'
 import {produce} from 'immer'
 import {combineReducers} from "redux";
@@ -24,6 +24,7 @@ function addColumn(columnState, id) {
     draft.allIds.push(id);
   });
 }
+
 
 // reducer for columns
 export function columns(state = {}, action) {
@@ -55,8 +56,13 @@ export function columns(state = {}, action) {
       {
         const fromId = action.fromColumnId;
         const toId = action.toColumnId;
-        draftState.byID[toId].content = this.state.byId[fromId].content;
+        draftState.byID[toId].blockId = this.state.byId[fromId].blockId;
         draftState.byID[fromId] = null;
+        break;
+      }
+      case ATTACH_BLOCK:
+      {
+        draftState.byID[action.columnId].blockId = action.blockId;
         break;
       }
       default:
@@ -97,9 +103,32 @@ const rows = (state = {}, action) =>
   });
 
 
-const content = (state = {}, action) => {
-  return state;
-};
+const content = (state = {}, action) =>
+  produce(state, draftState => {
+    switch (action.type) {
+      case CREATE_BLOCK: {
+        draftState.blocks[action.blockId] = {
+          id: action.blockId,
+          templateId: action.templateId,
+          preview: "<span>Awaiting Preview</span>",
+          blockFields: []
+      };
+        break;
+      }
+      case CREATE_BLOCK_FIELD: {
+        draftState.blockFields[action.blockFieldId] = {
+          id: action.blockFieldId,
+          templateField: action.templateField,
+          fieldType: action.fieldType,
+          value: action.value
+        };
+        draftState.blocks[action.blockID].blockFields.push(action.blockFieldId);
+        break;
+      }
+      default:
+        return state;
+      }
+  });
 
 const container = (state = {}, action) =>
   produce(state, draftState => {

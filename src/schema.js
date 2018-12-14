@@ -65,7 +65,7 @@ export const originalState = {
                 "template1" : {
                     id: "template1",
                     type: "BUTTON_BLOCK",
-                    fields: []
+                    fields: ["templateField1", "templateField2"]
                 }
             },
             template_fields : {
@@ -74,22 +74,29 @@ export const originalState = {
                     type: "TEXT",
                     name: "button_text",
                     desc: "The button text"
+                },
+                "templateField2" : {
+                    id: "templateField2",
+                    type: "TEXT",
+                    name: "link",
+                    desc: "where the button leads"
                 }
             },
             blocks : {
                 "block1" : {
                     id: "block1",
                     templateId: "template1",
-                    preview: "<button class='btn btn-primary text-center'>A button test</button>",
+                    preview: "<button class='btn btn-block btn-primary text-center'>A button</button>",
                     blockFields: ["blockField1"]
                 },
 
             },
-            block_fields: {
+            blockFields: {
                 "blockField1": {
                     id : "blockField1",
                     templateField: "templateField1",
-                    value: "La La La"
+                    fieldType: 'STATIC',
+                    value: "A test"
                 }
             },
         },

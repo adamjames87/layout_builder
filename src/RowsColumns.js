@@ -151,13 +151,13 @@ export class DumbNewColumnBtn extends Component {
           <ModalLauncher title="Add Columns"
                          modalAction={showModal(
                              {modalType: 'ADD_COLUMNS',
-                               modalProps: {rowId: this.props.rowId,}})} />
+                               modalProps: {rowId: this.props.rowId}})} />
         </button>
         <button className="btn btn-primary m-2">
           <ModalLauncher title="Add Content"
                          modalAction={showModal(
                              {modalType: 'ADD_CONTENT',
-                               modalProps: {rowId: this.props.rowId,}})} />
+                               modalProps: {rowId: this.props.rowId, templateId: "template1"}})} />
         </button>
       </div>
     );
