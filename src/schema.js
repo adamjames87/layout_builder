@@ -26,13 +26,13 @@ export const originalState = {
                 "column1" : {
                     id: "column1",
                     colSpan: 6,
-                    contentId: null,
+                    blockId: null,
                     rows: ["row3", "row4"]
                 },
                 "column2" : {
                     id: "column2",
                     colSpan: 6,
-                    blockId: "block1",
+                    blockId: null,
                     rows: []
                 },
                 "column3" : {

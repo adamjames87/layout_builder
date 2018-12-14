@@ -91,6 +91,23 @@ export function attachBlock(blockId, columnId) {
 }
 
 
+export function createContent(dispatch, templateId, templateFields, columnId) {
+  const blockId = generateUUID();
+
+  // Create the block
+    dispatch(createBlock(templateId, blockId));
+
+    // Create the block fields
+    Object.keys(templateFields.byId).forEach(
+        templateId => dispatch(createBlockField(
+            templateFields.byId[templateId].id,
+            'STATIC',
+            templateFields.byId[templateId].value,
+            blockId)
+        ));
+  // Now attach the block
+  dispatch(attachBlock(blockId, columnId));
+}
 
 
 

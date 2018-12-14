@@ -27,6 +27,7 @@ function addColumn(columnState, id) {
 
 
 // reducer for columns
+
 export function columns(state = {}, action) {
   return produce(state, draftState => {
     switch (action.type) {
@@ -56,13 +57,13 @@ export function columns(state = {}, action) {
       {
         const fromId = action.fromColumnId;
         const toId = action.toColumnId;
-        draftState.byID[toId].blockId = this.state.byId[fromId].blockId;
-        draftState.byID[fromId] = null;
+        draftState.byId[toId].blockId = this.state.byId[fromId].blockId;
+        draftState.byId[fromId] = null;
         break;
       }
       case ATTACH_BLOCK:
       {
-        draftState.byID[action.columnId].blockId = action.blockId;
+        draftState.byId[action.columnId].blockId = action.blockId;
         break;
       }
       default:
@@ -122,7 +123,7 @@ const content = (state = {}, action) =>
           fieldType: action.fieldType,
           value: action.value
         };
-        draftState.blocks[action.blockID].blockFields.push(action.blockFieldId);
+        draftState.blocks[action.blockId].blockFields.push(action.blockFieldId);
         break;
       }
       default:

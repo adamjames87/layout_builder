@@ -13,111 +13,114 @@ import {NewRowButton} from "./components/NewRowButton";
 // rows
 export class PresentationColumn extends Component {
 
-  // logic:
-  // if rows then display rows + add new row
-  // if content display content + add new row
-  // if neither rows nor content + add new content
+    // logic:
+    // if rows then display rows + add new row
+    // if content display content + add new row
+    // if neither rows nor content + add new content
 
-  renderRows(column) {
+    renderRows(column) {
 
-    if (this.props.rows == null || this.props.rows.length === 0) {
-      if (this.props.blockId != null) {
-        return (
-            <ContentDisplayBlock blockId={this.props.blockId}/>
-        );
-      } else {
-            return (
-              <ContentAddButton/>
-            );
-      }
+        if (this.props.rows == null || this.props.rows.length === 0) {
+            if (this.props.blockId != null) {
+                return (
+                    <ContentDisplayBlock blockId={this.props.blockId}/>
+                );
+            } else {
+                return (
+                    <button className="btn btn-primary m-2">
+                        <ModalLauncher title="Add Content"
+                                       modalAction={showModal(
+                                           {
+                                               modalType: 'ADD_CONTENT',
+                                               modalProps: {columnId: this.props.id,
+                                                   templateId: "template1"}
+                                           })}/>
+                    </button>
+                );
+            }
 
-    } else {
-      return this.props.rows.map(
-        row => {
-          return (
-            <Row key={row} rowId={row}/>
-          );
-        });
+        } else {
+            return this.props.rows.map(
+                row => {
+                    return (
+                        <Row key={row} rowId={row}/>
+                    );
+                });
+        }
     }
-  }
 
-  static colClasses() {
-    return "border-2 border-solid border-black p-2"
-  }
+    static colClasses() {
+        return "border-2 border-solid border-black p-2"
+    }
 
-  render() {
-    const classNames = PresentationColumn.colClasses() + " col-md-" + this.props.colSpan;
-    return (
-      <div className={classNames}>
-        {this.renderRows()}
-        <NewRowButton columnId={this.props.id}/>
-      </div>
-    )
-  }
+    render() {
+        const classNames = PresentationColumn.colClasses() + " col-md-" + this.props.colSpan;
+        return (
+            <div className={classNames}>
+                {this.renderRows()}
+                <NewRowButton columnId={this.props.id}/>
+            </div>
+        )
+    }
 }
 
 
 export class PresentationRow extends Component {
-  renderColumns() {
+    renderColumns() {
 
-    return this.props.columns.map(
-      col => {
-        return (
-          <Column key={col} columnId={col}/>
-        );
-      });
-  }
-
-  render() {
-    // We always need columns
-    if (this.props.columns.length > 0) {
-      return (
-        <div className="row">
-          {this.renderColumns()}
-        </div>
-      )
-    } else {
-      // if we have no columns then add button to make them
-      return (
-        <div className="row">
-          <div className="col-md-12">
-            <NewColumnBtn rowId={this.props.id}/>
-          </div>
-        </div>
-      );
+        return this.props.columns.map(
+            col => {
+                return (
+                    <Column key={col} columnId={col}/>
+                );
+            });
     }
 
-  }
+    render() {
+        // We always need columns
+        if (this.props.columns.length > 0) {
+            return (
+                <div className="row">
+                    {this.renderColumns()}
+                </div>
+            )
+        } else {
+            // if we have no columns then add button to make them
+            return (
+                <div className="row">
+                    <div className="col-md-12">
+                        <NewColumnBtn rowId={this.props.id}/>
+                    </div>
+                </div>
+            );
+        }
+
+    }
 }
-
-
-
-
-
 
 
 // ownProps gets given
 // a rowId
 const mapStateToPropsRow = (state, ownProps) => {
-  console.log("mapping state to props for " + ownProps.rowId);
-  return {
-    id: state.entities.rows.byId[ownProps.rowId].id,
-    row: state.entities.rows.byId[ownProps.rowId].id,
-    columns: state.entities.rows.byId[ownProps.rowId].columns,
-  }
+    console.log("mapping state to props for " + ownProps.rowId);
+    return {
+        id: state.entities.rows.byId[ownProps.rowId].id,
+        row: state.entities.rows.byId[ownProps.rowId].id,
+        columns: state.entities.rows.byId[ownProps.rowId].columns,
+    }
 };
 
 const mapDispatchToPropsRow = (dispatch, ownProps) => {
-  return {
-    onclick: () => {
-      console.log("blah")
+    return {
+        onclick: () => {
+            console.log("blah")
+        }
     }
-  }
 };
 
 export const Row = connect(
-  mapStateToPropsRow,
-  mapDispatchToPropsRow,
+    mapStateToPropsRow,
+    mapDispatchToPropsRow,
 )(PresentationRow);
 
 
@@ -128,56 +131,52 @@ export const Row = connect(
 // col-span
 // content
 const mapStateToPropsColumn = (state, ownProps) => {
-  let byIdElement = state.entities.columns.byId[ownProps.columnId];
-  return {
-    id: ownProps.columnId,
-    rows: byIdElement.rows,
-    colSpan: byIdElement.colSpan,
-    blockId: byIdElement.blockId,
-  }
+    let byIdElement = state.entities.columns.byId[ownProps.columnId];
+    return {
+        id: ownProps.columnId,
+        rows: byIdElement.rows,
+        colSpan: byIdElement.colSpan,
+        blockId: byIdElement.blockId,
+    }
 };
 
 const Column = connect(
-  mapStateToPropsColumn,
+    mapStateToPropsColumn,
 )(PresentationColumn);
 
 // NewColumnBtn
 export class DumbNewColumnBtn extends Component {
-  render() {
-    return (
-      <div className="border-2 border-solid border-black p-2 text-center"
-      >
-        <button className="btn btn-primary m-2">
-          <ModalLauncher title="Add Columns"
-                         modalAction={showModal(
-                             {modalType: 'ADD_COLUMNS',
-                               modalProps: {rowId: this.props.rowId}})} />
-        </button>
-        <button className="btn btn-primary m-2">
-          <ModalLauncher title="Add Content"
-                         modalAction={showModal(
-                             {modalType: 'ADD_CONTENT',
-                               modalProps: {rowId: this.props.rowId, templateId: "template1"}})} />
-        </button>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="border-2 border-solid border-black p-2 text-center"
+            >
+                <button className="btn btn-primary m-2">
+                    <ModalLauncher title="Add Columns"
+                                   modalAction={showModal(
+                                       {
+                                           modalType: 'ADD_COLUMNS',
+                                           modalProps: {rowId: this.props.rowId}
+                                       })}/>
+                </button>
+            </div>
+        );
+    }
 }
 
 const mapStateToPropsNewColumnBtn = (state, ownProps) => {
-  return {
-    rowId: ownProps.rowId
-  }
+    return {
+        rowId: ownProps.rowId
+    }
 }
 
 const mapDispatchToPropsNewColumnBtn = (dispatch, ownProps) => {
-  return {
-    onClick: () => dispatch(addColumnConfiguration(ownProps.rowId, [4,4,4]))
-  }
+    return {
+        onClick: () => dispatch(addColumnConfiguration(ownProps.rowId, [4, 4, 4]))
+    }
 };
 
 export const NewColumnBtn = connect(
-  mapStateToPropsNewColumnBtn,
-  mapDispatchToPropsNewColumnBtn
+    mapStateToPropsNewColumnBtn,
+    mapDispatchToPropsNewColumnBtn
 )(DumbNewColumnBtn);
 
