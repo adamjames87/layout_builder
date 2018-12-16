@@ -96,7 +96,7 @@ export const originalState = {
                     id : "blockField1",
                     templateField: "templateField1",
                     fieldType: 'STATIC',
-                    value: "A test"
+                    value: "Old Test"
                 }
             },
         },

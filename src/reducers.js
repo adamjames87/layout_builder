@@ -1,9 +1,10 @@
 import {
   ADD_COLUMN, ADD_COLUMNS,
-  ADD_ROW, ATTACH_BLOCK, CREATE_BLOCK, CREATE_BLOCK_FIELD, HIDE_MODAL, MOVE_CONTENT, SHOW_MODAL
+  ADD_ROW, ATTACH_BLOCK, CREATE_BLOCK, CREATE_BLOCK_FIELD, GENERATE_PREVIEW, HIDE_MODAL, MOVE_CONTENT, SHOW_MODAL
 } from './actionTypes'
 import {produce} from 'immer'
 import {combineReducers} from "redux";
+import {generateOfflinePreview} from "./rendering/onlineRendering";
 
 
 function makeColumn(id, colSpan, rows = [], contentId = null) {
@@ -124,6 +125,11 @@ const content = (state = {}, action) =>
           value: action.value
         };
         draftState.blocks[action.blockId].blockFields.push(action.blockFieldId);
+        break;
+      }
+      case GENERATE_PREVIEW: {
+          draftState.blocks[action.blockId].preview = generateOfflinePreview(state, action.blockId)
+
         break;
       }
       default:
