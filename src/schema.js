@@ -78,7 +78,7 @@ export const originalState = {
                     id: "template2",
                     type: "SPACER_BLOCK",
                     name: "Spacer block",
-                    fields: []
+                    fields: ["templateField3"]
                 }
             },
             template_fields : {
@@ -93,6 +93,12 @@ export const originalState = {
                     type: "TEXT",
                     name: "link",
                     desc: "where the button leads"
+                },
+                "templateField3" : {
+                    id: "templateField3",
+                    type: "NUMBER",
+                    name: "padding",
+                    desc: "amount of padding"
                 }
             },
             blocks : {

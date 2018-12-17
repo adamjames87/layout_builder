@@ -2,16 +2,13 @@ import React from "react";
 import {produce} from "immer";
 import {connect} from "react-redux";
 
+
+
 class DumbAddFieldForm extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
-    this.state = {
-      fields: props.fields,
-      onSubmit: props.onSubmit
-    };
-
+    console.log("constructing DumbAddFieldForm");
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -20,34 +17,31 @@ class DumbAddFieldForm extends React.Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-
-
-    this.setState(produce(this.state, draftState => {
-      draftState.fields.byId[name].value = value;
-    }));
-
+    this.props.fields.byId[name].value = value;
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.state.onSubmit(this.state.fields);
+    this.props.onSubmit(this.props.fields);
   }
 
   renderFields() {
-    return this.state.fields.ordered.map(
+    console.log("Rendering fields");
+    console.log(this.props.fields);
+    return this.props.fields.ordered.map(
       field => {
         return (
           <div className="form-group" key={field}>
-            <label>{this.state.fields.byId[field].name}</label>
+            <label>{this.props.fields.byId[field].name}</label>
             <input
-              placeholder={this.state.fields.byId[field].value}
+              placeholder={this.props.fields.byId[field].value}
               type="text"
               onChange={this.handleInputChange}
-              name={this.state.fields.byId[field].id}
+              name={this.props.fields.byId[field].id}
               key={field}
               className="form-control"
             />
-            <small className="form-text text-muted">{this.state.fields.byId[field].desc}</small>
+            <small className="form-text text-muted">{this.props.fields.byId[field].desc}</small>
           </div>
 
         )
@@ -58,7 +52,7 @@ class DumbAddFieldForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.props.handleSubmit}>
         {this.renderFields()}
         <input type="submit" className="btn btn-primary" value="Add Content"></input>
       </form>
