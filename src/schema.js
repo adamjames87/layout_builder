@@ -84,7 +84,7 @@ export const originalState = {
             template_fields : {
                 "templateField1" : {
                     id: "templateField1",
-                    type: "TEXT",
+                    type: "LONGTEXT",
                     name: "button_text",
                     desc: "The button text"
                 },

@@ -25,26 +25,68 @@ class DumbAddFieldForm extends React.Component {
     this.props.onSubmit(this.props.fields);
   }
 
+  renderField(field){
+      switch(field.type){
+          case "TEXT": {
+              return (
+                  <div className="form-group" key={field.id}>
+                      <label>{field.name}</label>
+                      <input
+                          placeholder={field.value}
+                          type="text"
+                          onChange={this.handleInputChange}
+                          name={field.id}
+                          key={field}
+                          className="form-control"
+                      />
+                      <small className="form-text text-muted">{field.desc}</small>
+                  </div>
+              )
+          }
+          case "LONGTEXT": {
+              return (
+                  <div className="form-group" key={field.id}>
+                      <label>{field.name}</label>
+                      <input
+                          placeholder={field.value}
+                          type="text"
+                          onChange={this.handleInputChange}
+                          name={field.id}
+                          key={field}
+                          className="form-control"
+                      />
+                      <small className="form-text text-muted">{field.desc}</small>
+                  </div>
+
+              )
+          }
+          case "NUMBER": {
+              return (
+                  <div className="form-group" key={field.id}>
+                      <label>{field.name}</label>
+                      <input
+                          placeholder={field.value}
+                          type="text"
+                          onChange={this.handleInputChange}
+                          name={field.id}
+                          key={field.id}
+                          className="form-control"
+                      />
+                      <small className="form-text text-muted">{field.desc}</small>
+                  </div>
+
+              )
+
+          }
+      }
+  }
+
   renderFields() {
     console.log("Rendering fields");
-    console.log(this.props.fields);
+    console.log(this.props.fields.ordered);
     return this.props.fields.ordered.map(
       field => {
-        return (
-          <div className="form-group" key={field}>
-            <label>{this.props.fields.byId[field].name}</label>
-            <input
-              placeholder={this.props.fields.byId[field].value}
-              type="text"
-              onChange={this.handleInputChange}
-              name={this.props.fields.byId[field].id}
-              key={field}
-              className="form-control"
-            />
-            <small className="form-text text-muted">{this.props.fields.byId[field].desc}</small>
-          </div>
-
-        )
+          return this.renderField(this.props.fields.byId[field]);
       }
     );
   }
