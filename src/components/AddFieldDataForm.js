@@ -47,7 +47,7 @@ class DumbAddFieldForm extends React.Component {
               return (
                   <div className="form-group" key={field.id}>
                       <label>{field.name}</label>
-                      <input
+                      <textarea
                           placeholder={field.value}
                           type="text"
                           onChange={this.handleInputChange}
