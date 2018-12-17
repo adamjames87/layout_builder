@@ -6,7 +6,7 @@ import {
     SHOW_MODAL,
     HIDE_MODAL,
     MOVE_CONTENT,
-    CREATE_BLOCK, CREATE_BLOCK_FIELD, GENERATE_PREVIEW
+    CREATE_BLOCK, CREATE_BLOCK_FIELD, GENERATE_PREVIEW, ADD_CONTENT_CHOOSE_TEMPLATE
 } from "./actionTypes";
 import {generateUUID} from "./utils";
 
@@ -153,6 +153,14 @@ export function showNewColumnsModal(rowId) {
             rowId: rowId
         }
     };
+}
+
+export function addContentChooseTemplate(templateId, columnId) {
+    return {
+        type: ADD_CONTENT_CHOOSE_TEMPLATE,
+        templateId: templateId,
+        columnId: columnId
+    }
 }
 
 

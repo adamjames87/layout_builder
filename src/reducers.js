@@ -1,5 +1,5 @@
 import {
-  ADD_COLUMN, ADD_COLUMNS,
+  ADD_COLUMN, ADD_COLUMNS, ADD_CONTENT_CHOOSE_TEMPLATE,
   ADD_ROW, ATTACH_BLOCK, CREATE_BLOCK, CREATE_BLOCK_FIELD, GENERATE_PREVIEW, HIDE_MODAL, MOVE_CONTENT, SHOW_MODAL
 } from './actionTypes'
 import {produce} from 'immer'
@@ -187,15 +187,26 @@ const modal = (state = modalInitialState, action) => {
 };
 
 
+//
+const addContent = (state = {templateId: null, columnID: null}, action) => {
+  switch(action.type) {
+    case ADD_CONTENT_CHOOSE_TEMPLATE: {
+      return {templateId: action.templateId, columnId: action.columnId}
+      break;
+    }
+    default:
+      return state;
+    }
+  }
+
+  const ui = combineReducers({
+    addContent
+  });
+
+
+
 export const rootReducer = combineReducers({
+  ui,
   modal,
   entities
 });
-//     console.log(action)
-//     switch (action.type) {
-//         case ADD_COLUMN:
-//             return produce(state, draft => {
-//                 draft.entities.columns = columns(state.entities.columns, action);
-//             });
-//     }
-// }

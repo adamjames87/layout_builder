@@ -1,4 +1,10 @@
 export const originalState = {
+    ui: {
+        addContent: {
+            templateId: null,
+            columnId: null
+        }
+    },
     entities: {
         rows: {
             byId: {
@@ -65,7 +71,14 @@ export const originalState = {
                 "template1" : {
                     id: "template1",
                     type: "BUTTON_BLOCK",
+                    name: "Button block",
                     fields: ["templateField1", "templateField2"]
+                },
+                "template2" : {
+                    id: "template2",
+                    type: "SPACER_BLOCK",
+                    name: "Spacer block",
+                    fields: []
                 }
             },
             template_fields : {

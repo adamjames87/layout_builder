@@ -128,7 +128,6 @@ const buildFields = (state, templateId) => {
 };
 
 function mapStateToProps(state, ownProps) {
-    console.log(state.modal.modalProps);
     return {
         fields: buildFields(state.entities.content, state.modal.modalProps.templateId),
         ...state.modal.modalProps,

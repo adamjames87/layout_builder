@@ -7,7 +7,7 @@ const DumbNewRowButton = ({columnId, addAction, dispatch}) => {
   return (
     <div className="font-sans text-center border-2 border-solid border-orange-light bg-orange-lightest">
       <div className="p-2">
-        <ModalLauncher title="Add New Row"
+        <ModalLauncher title="+"
                        modalAction={showModal({
                          modalType: 'ADD_ROW',
                          modalProps: {columnId: columnId, addAction: addAction, dispatch: dispatch}

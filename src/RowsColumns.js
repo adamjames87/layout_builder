@@ -50,7 +50,7 @@ export class PresentationColumn extends Component {
     }
 
     static colClasses() {
-        return "border-2 border-solid border-black p-2"
+        return "border-2 border-solid border-grey-light"
     }
 
     render() {
@@ -80,14 +80,14 @@ export class PresentationRow extends Component {
         // We always need columns
         if (this.props.columns.length > 0) {
             return (
-                <div className="row">
+                <div className="row border-2 border-solid border-blue-lightest">
                     {this.renderColumns()}
                 </div>
             )
         } else {
             // if we have no columns then add button to make them
             return (
-                <div className="row">
+                <div className="row border-2 border-solid border-blue-lightest">
                     <div className="col-md-12">
                         <NewColumnBtn rowId={this.props.id}/>
                     </div>
@@ -102,7 +102,6 @@ export class PresentationRow extends Component {
 // ownProps gets given
 // a rowId
 const mapStateToPropsRow = (state, ownProps) => {
-    console.log("mapping state to props for " + ownProps.rowId);
     return {
         id: state.entities.rows.byId[ownProps.rowId].id,
         row: state.entities.rows.byId[ownProps.rowId].id,
@@ -148,7 +147,7 @@ const Column = connect(
 export class DumbNewColumnBtn extends Component {
     render() {
         return (
-            <div className="border-2 border-solid border-black p-2 text-center"
+            <div className=" p-2 text-center"
             >
                 <button className="btn btn-primary m-2">
                     <ModalLauncher title="Add Columns"

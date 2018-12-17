@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 
 const DumbContentDisplayBlock = ({block}) => {
   return (
-    <div dangerouslySetInnerHTML={{__html: block.preview}} />
+    <div className="border-2 border-solid border-grey-lightest">
+      <div dangerouslySetInnerHTML={{__html: block.preview}} />
+    </div>
   )
 };
 
